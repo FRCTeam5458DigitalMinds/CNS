@@ -87,6 +87,9 @@ void Robot::RobotInit() {
   RightBack.SetInverted(true);
 
   RampDeploy.Set(false);
+  CubeIntake.Set(false);
+  LeftRamp.Set(false);
+  RightRamp.Set(false);
 
 
 }
@@ -114,7 +117,7 @@ void Robot::RobotPeriodic() {
 
   //Ramps down
   if (JoyAccel1.GetRawButton(7)) {
-    if(!RampButton){
+    if(!RampButton) {
       RampDeploy.Set(!RampDeploy.Get());
       RampButton = true;
     }
@@ -124,7 +127,7 @@ void Robot::RobotPeriodic() {
   }
   //Left Ramp lift
   if (JoyAccel1.GetRawButton(11)) {
-    if(!LeftRampButton){
+    if(!LeftRampButton) {
       LeftRamp.Set(!LeftRamp.Get());
       LeftRampButton = true;
     }
@@ -134,7 +137,7 @@ void Robot::RobotPeriodic() {
   }
   // Right Ramp lift
   if (JoyAccel1.GetRawButton(10)) {
-    if(!RightRampButton){
+    if(!RightRampButton) {
       RightRamp.Set(!RightRamp.Get());
       RightRampButton = true;
     }
@@ -145,8 +148,8 @@ void Robot::RobotPeriodic() {
 
 
  //Intakes out
-  if (JoyAccel1.GetRawButton(7)) {
-    if(!CubeButton){
+  if (Xbox.GetRawButton(8)) {
+    if(!CubeButton) {
       CubeIntake.Set(!CubeIntake.Get());
       CubeButton = true;
     }
@@ -160,8 +163,11 @@ void Robot::RobotPeriodic() {
     RightIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
     LeftIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
     PopUp.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -1);
-
   } 
+  else {
+    RightIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+    LeftIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  }
 
   // Spit cube
   if (Xbox.GetRawButton(1)) {
@@ -169,11 +175,45 @@ void Robot::RobotPeriodic() {
     RightIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 1);
     LeftIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 1);
     PopUp.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
-
+  }
+  else {
+    RightIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+    LeftIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
   }
 
+//Shoots the cube
+if (Xbox.GetRawButton(5)) {
 
+  RightFrontConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+  RightMidConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+  RightBackConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+  LeftFrontConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+  LeftMidConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+  LeftBackConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
 
+}
+//Shoots Through the front
+if (Xbox.GetRawButton(1)) {
+
+  RightFrontConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+  RightMidConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+  RightBackConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+  LeftFrontConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+  LeftBackConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+  PopUp.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.3);
+  LeftIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.2);
+  RightIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.2);
+}
+else {
+  RightFrontConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  RightMidConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  RightBackConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  LeftFrontConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  LeftBackConveyer.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  PopUp.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  LeftIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  RightIntake.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+}
   //Drive Code for CNS and modified for Axon
   //Button 5 on the wheel activates point turning
   if (RaceWheel.GetRawButton(5)) {
